@@ -49,31 +49,31 @@ export default function Contact() {
             <h3 className="text-xl font-semibold text-white mb-3">Request a Quote</h3>
 
             <form className="flex flex-col gap-3" onSubmit={handleSubmit}>
-              <input 
-                name="name" 
-                className="p-3 rounded-md bg-black/60 border border-white/8 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition" 
-                placeholder="Full name" 
-                required 
+              <input
+                name="name"
+                className="p-3 rounded-md bg-black/60 border border-white/8 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+                placeholder="Full name"
+                required
               />
-              <input 
-                name="phone" 
-                className="p-3 rounded-md bg-black/60 border border-white/8 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition" 
-                placeholder="Phone number" 
-                required 
+              <input
+                name="phone"
+                className="p-3 rounded-md bg-black/60 border border-white/8 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+                placeholder="Phone number"
+                required
               />
-              <input 
-                name="email" 
-                type="email" 
-                className="p-3 rounded-md bg-black/60 border border-white/8 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition" 
-                placeholder="Email" 
-                required 
+              <input
+                name="email"
+                type="email"
+                className="p-3 rounded-md bg-black/60 border border-white/8 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+                placeholder="Email"
+                required
               />
-              <textarea 
-                name="message" 
-                className="p-3 rounded-md bg-black/60 border border-white/8 text-white placeholder-gray-400 resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 transition" 
-                rows={4} 
-                placeholder="Is there anything important you would like Oscardyne to know?" 
-                required 
+              <textarea
+                name="message"
+                className="p-3 rounded-md bg-black/60 border border-white/8 text-white placeholder-gray-400 resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+                rows={4}
+                placeholder="Is there anything important you would like Oscardyne to know?"
+                required
               />
 
               <button
@@ -87,25 +87,36 @@ export default function Contact() {
             </form>
           </div>
 
-          <div className="rounded-2xl p-6 bg-black/60 border border-white/6">
-            <h3 className="text-xl font-semibold text-white">Contact</h3>
-            <div className="mt-3 text-gray-300 flex flex-col gap-2">
-              <div className="flex items-center gap-2">
-                <MapPin size={18} /> Calgary Alberta, Canada
-              </div>
-              <div className="flex items-center gap-2">
-                <Phone size={18} /> (403) 472 1938
-              </div>
-              <div className="flex items-center gap-2">
-                <Mail size={18} /> oscarfitnessco@gmail.com
-              </div>
-            </div>
+          <div
+            className="rounded-2xl p-6 border border-white/6 bg-black/60 bg-cover bg-center relative overflow-hidden"
+            style={{ backgroundImage: "url('/images/special.jpg')" }}
+          >
+            {/* Overlay for readability */}
+            <div className="absolute inset-0 bg-black/70"></div>
 
-            <div className="mt-6">
-              <h4 className="text-sm text-gray-300 mb-2">Office Hours</h4>
-              <div className="text-gray-400 text-sm">Mon — Sun: 24/7</div>
+            {/* Content */}
+            <div className="relative z-10">
+              <h3 className="text-xl font-semibold text-white">Contact</h3>
+
+              <div className="mt-3 text-gray-300 flex flex-col gap-2">
+                <div className="flex items-center gap-2">
+                  <MapPin size={18} /> Calgary Alberta, Canada
+                </div>
+                <div className="flex items-center gap-2">
+                  <Phone size={18} /> (403) 472 1938
+                </div>
+                <div className="flex items-center gap-2">
+                  <Mail size={18} /> oscarfitnessco@gmail.com
+                </div>
+              </div>
+
+              <div className="mt-6">
+                <h4 className="text-sm text-gray-300 mb-2">Office Hours</h4>
+                <div className="text-gray-400 text-sm">Mon — Sun: 24/7</div>
+              </div>
             </div>
           </div>
+
         </div>
       </div>
     </section>
