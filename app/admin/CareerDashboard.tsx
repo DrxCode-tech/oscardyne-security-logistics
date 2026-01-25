@@ -17,18 +17,20 @@ export default function CareerDashboard() {
   useEffect(() => {
     const fetchApplications = async () => {
       try {
-        const res = await fetch("/api/grant");
+        const res = await fetch("/api/careerApplications");
         if (!res.ok) throw new Error("Failed to fetch");
+
         const data = await res.json();
 
-        // Convert Firestore timestamps to strings
-        const formatted: Application[] = data.map((doc: any) => ({
+        const formatted: Application[] = data.applications.map((doc: any) => ({
           id: doc.id,
           name: doc.name,
           email: doc.email,
           phone: doc.phone || "",
           fileUrl: doc.fileUrl || "",
-          submittedAt: new Date(doc.submittedAt._seconds * 1000).toLocaleDateString(),
+          submittedAt: doc.submittedAt?.seconds
+            ? new Date(doc.submittedAt.seconds * 1000).toLocaleDateString()
+            : "—",
         }));
 
         setApplications(formatted);
@@ -41,6 +43,7 @@ export default function CareerDashboard() {
 
     fetchApplications();
   }, []);
+
 
   if (loading)
     return <p className="text-center text-gray-400 py-10">Loading applications...</p>;
