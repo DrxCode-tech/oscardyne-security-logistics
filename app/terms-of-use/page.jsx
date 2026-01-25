@@ -61,7 +61,7 @@ export default function TermsOfUsePage() {
         <p>
           For any questions, please contact us at{" "}
           <span className="text-blue-400">
-            [insert company email]
+            Oscardyne Security Logistics
           </span>.
         </p>
       </div>
