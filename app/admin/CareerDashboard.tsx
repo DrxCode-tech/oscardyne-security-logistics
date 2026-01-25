@@ -17,7 +17,7 @@ export default function CareerDashboard() {
   useEffect(() => {
     const fetchApplications = async () => {
       try {
-        const res = await fetch("/api/careers");
+        const res = await fetch("/api/grant");
         if (!res.ok) throw new Error("Failed to fetch");
         const data = await res.json();
 

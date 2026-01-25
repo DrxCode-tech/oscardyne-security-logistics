@@ -17,7 +17,7 @@ export default function ContactReports() {
   useEffect(() => {
     const fetchReports = async () => {
       try {
-        const res = await fetch("/api/contact");
+        const res = await fetch("/api/getContactReports");
         if (!res.ok) throw new Error("Failed to fetch");
         const data = await res.json();
 
