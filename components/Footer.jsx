@@ -93,7 +93,7 @@ export default function Footer() {
               <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-red-500 transition">
                 <FaYoutube size={24} />
               </a>
-              <a href="https://x.com" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-red-500 transition">
+              <a href="https://x.com/oscardynefitnes?s=21" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-red-500 transition">
                 <FaXTwitter size={24} />
               </a>
             </div>
