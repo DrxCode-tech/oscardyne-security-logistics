@@ -21,14 +21,17 @@ export default function ContactReports() {
         if (!res.ok) throw new Error("Failed to fetch");
         const data = await res.json();
 
-        const formatted: Report[] = data.map((doc: any) => ({
+        const formatted: Report[] = (data.reports || []).map((doc: any) => ({
           id: doc.id,
           name: doc.name,
           phone: doc.phone || "",
           email: doc.email,
           message: doc.message,
-          createdAt: new Date(doc.createdAt._seconds * 1000).toLocaleDateString(),
+          createdAt: doc.createdAt?._seconds
+            ? new Date(doc.createdAt._seconds * 1000).toLocaleDateString()
+            : "Unknown",
         }));
+
 
         setReports(formatted);
       } catch (err) {
