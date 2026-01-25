@@ -2,7 +2,7 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 import Script from 'next/script'
 
-const inter = Inter({ 
+const inter = Inter({
   subsets: ['latin'],
   variable: '--font-inter',
 })
@@ -75,6 +75,16 @@ export const metadata = {
   },
   alternates: {
     canonical: 'https://www.oscardynesecuritylogistics.com',
+  },
+  icons: {
+    icon: [
+      { url: '/images/icon.png', sizes: '32x32', type: 'image/png' },
+      { url: '/images/icon.png', sizes: '192x192', type: 'image/png' },
+    ],
+    shortcut: '/images/favicon.ico',
+    apple: [
+      { url: '/images/apple-icon.png', sizes: '180x180', type: 'image/png' },
+    ],
   },
 }
 
