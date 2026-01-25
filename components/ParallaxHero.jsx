@@ -15,7 +15,7 @@ export default function ParallaxHero() {
     '/images/Security2.jpg', 
     '/images/Security3.jpg', 
     '/images/Security4.jpg', 
-    '/images/Security5.jpg',
+    '/images/special.jpg',
     '/images/special.jpg'
   ];
 
