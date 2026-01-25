@@ -7,25 +7,6 @@ import relativeTime from "dayjs/plugin/relativeTime";
 
 dayjs.extend(relativeTime);
 
-async function deleteApplication(id) {
-  if (!confirm("Are you sure you want to delete this application?")) return;
-
-  try {
-    const res = await fetch("/api/delete", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id }),
-    });
-
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.error);
-
-    setApps(prev => prev.filter(app => app.id !== id));
-  } catch (err) {
-    alert("Delete failed: " + err.message);
-  }
-}
-
 
 export default function CareerDashboard() {
   const [apps, setApps] = useState([]);
@@ -35,6 +16,25 @@ export default function CareerDashboard() {
   const [selected, setSelected] = useState(null);
   const [grantDate, setGrantDate] = useState("");
   const [sending, setSending] = useState(false);
+
+  async function deleteApplication(id) {
+    if (!confirm("Are you sure you want to delete this application?")) return;
+
+    try {
+      const res = await fetch("/api/delete", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id }),
+      });
+
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error);
+
+      setApps(prev => prev.filter(app => app.id !== id));
+    } catch (err) {
+      alert("Delete failed: " + err.message);
+    }
+  }
 
   useEffect(() => {
     async function fetchApps() {
