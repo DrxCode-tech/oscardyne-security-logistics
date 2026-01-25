@@ -7,6 +7,26 @@ import relativeTime from "dayjs/plugin/relativeTime";
 
 dayjs.extend(relativeTime);
 
+async function deleteApplication(id) {
+  if (!confirm("Are you sure you want to delete this application?")) return;
+
+  try {
+    const res = await fetch("/api/delete", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id }),
+    });
+
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error);
+
+    setApps(prev => prev.filter(app => app.id !== id));
+  } catch (err) {
+    alert("Delete failed: " + err.message);
+  }
+}
+
+
 export default function CareerDashboard() {
   const [apps, setApps] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -97,12 +117,22 @@ export default function CareerDashboard() {
                 Applied:{" "}
                 {app.submittedAt
                   ? dayjs(
-                      app.submittedAt._seconds
-                        ? new Date(app.submittedAt._seconds * 1000)
-                        : new Date(app.submittedAt)
-                    ).fromNow()
+                    app.submittedAt._seconds
+                      ? new Date(app.submittedAt._seconds * 1000)
+                      : new Date(app.submittedAt)
+                  ).fromNow()
                   : "Unknown"}
               </p>
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  deleteApplication(app.id);
+                }}
+                className="mt-4 w-full py-2 rounded-lg bg-red-500/80 hover:bg-red-600 text-white text-sm font-semibold"
+              >
+                Delete Application
+              </button>
+
             </div>
           </motion.div>
         ))}
