@@ -85,7 +85,7 @@ export default function AssessmentPage() {
         <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
           <h1 className="text-xl font-bold">
             <Link href="/" className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-yellow-400">
-              Oscardyne and Security Logistics
+              Oscardyne Security Logistics
             </Link>
           </h1>
 
