@@ -17,7 +17,7 @@ export default function Nav({ onOpen }) {
               className="object-contain rounded-md" 
             />
             <div className="text-xl md:text-2xl sm:text-md font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-yellow-400">
-              Oscardyne and Security Logistics
+              Oscardyne Security Logistics
             </div>
           </div>
 
