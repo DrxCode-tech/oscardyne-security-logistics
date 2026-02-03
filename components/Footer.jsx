@@ -23,7 +23,7 @@ export default function Footer() {
                 className="object-contain rounded-lg shadow-md"
               />
               <h2 className="text-lg font-bold text-white tracking-wide">
-                Oscardynefitness and Security Logistics
+                Oscardyne Security Logistics
               </h2>
             </div>
 

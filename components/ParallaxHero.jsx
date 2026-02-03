@@ -76,7 +76,7 @@ export default function ParallaxHero() {
           transition={{ duration: 0.6 }} 
           className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white leading-tight"
         >
-          Oscardynefitness and Security Logistics
+          Oscardyne Security Logistics
         </motion.h1>
 
         <motion.p 
