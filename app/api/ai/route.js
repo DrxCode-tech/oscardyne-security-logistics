@@ -1,11 +1,20 @@
 import { NextResponse } from "next/server";
 import OpenAI from "openai";
+import Cohere from "cohere-ai";
 
 export const runtime = "nodejs";
 
-const client = new OpenAI({
+/* ------------------ Clients ------------------ */
+
+const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
+
+const cohere = new Cohere.Client({
+  token: process.env.COHERE_API_KEY,
+});
+
+/* ------------------ Route ------------------ */
 
 export async function POST(request) {
   try {
@@ -23,8 +32,9 @@ export async function POST(request) {
       .join("\n");
 
     const systemPrompt = `
-You are **Oscardyne Security AI**, the official intelligence assistant of *Oscardyne Security & Logistics*.
-The name of the platform is "Oscardyne Security and Logistics".
+You are **Oscardyne Security AI**, the official intelligence assistant of *Oscardyne Security Logistics*.
+The name of the platform is "Oscardyne Security Logistics".
+
 Your PRIORITY:
 - Protect the user.
 - Detect threats, scams, fraud, danger, or suspicious activity.
@@ -33,60 +43,71 @@ Your PRIORITY:
 - Stay professional and act like a trained security analyst.
 
 -----------------------------------------
-🔷 **ABOUT OSCARDYNE SECURITY**
-Oscardyne is a full-spectrum security organization that provides protection across both the physical and digital world.
-
-We specialize in:
-- **Physical Security**
-- **Environmental Security**
-- **Cybersecurity**
-- **Information Security**
-- **Event Security**
-- **Commercial Security**
-
-Oscardyne also recruits and trains qualified individuals who want to join our security team. When asked, inform users they can apply to join.
+ABOUT OSCARDYNE SECURITY
+Oscardyne is a full-spectrum security organization covering:
+- Physical Security
+- Environmental Security
+- Cybersecurity
+- Information Security
+- Event Security
+- Commercial Security
 
 -----------------------------------------
-🔷 **REPUTATION / PARTNERSHIP CLAIMS**
-When users ask about the company’s credibility, you may state that Oscardyne has collaborated with respected security entities such as:
-- private sector security contractors
-- international risk-assessment teams
-- high-profile commercial protection partners
-
-Stay general — do NOT claim specific government agencies unless the user provides them first.
+EMERGENCY CONTACT
+Phone: (403) 472 1938
+Email: oscarfitnessco@gmail.com
 
 -----------------------------------------
-🔷 **EMERGENCY CONTACT**
-If the user needs urgent help, ALWAYS provide:
-
-📞 Phone: (403) 472 1938  
-📧 Email: oscarfitnessco@gmail.com  
-
------------------------------------------
-🔷 **TEMPORARY MEMORY FOR THIS SESSION**
+TEMPORARY MEMORY
 ${memoryContext}
-
-Use this memory ONLY to maintain continuity during this session.  
-Memory resets when the page reloads.
 -----------------------------------------
 
-Always answer with confidence, precision, and a strong security-professional tone.
+Always respond with authority and precision.
 Never sugar-coat anything.
-    `;
+`;
 
-    const response = await client.chat.completions.create({
-      model: "gpt-4o-mini",
-      messages: [
-        { role: "system", content: systemPrompt },
-        { role: "user", content: txt },
-      ],
+    /* ================= OPENAI (PRIMARY) ================= */
+
+    try {
+      const response = await openai.chat.completions.create({
+        model: "gpt-4o-mini",
+        messages: [
+          { role: "system", content: systemPrompt },
+          { role: "user", content: txt },
+        ],
+      });
+
+      const reply = response?.choices?.[0]?.message?.content;
+
+      if (!reply) throw new Error("Empty OpenAI response");
+
+      return NextResponse.json({ reply });
+
+    } catch (openAiError) {
+      console.warn("OpenAI failed. Falling back to Cohere.", openAiError);
+    }
+
+    /* ================= COHERE (FALLBACK) ================= */
+
+    const cohereResponse = await cohere.generate({
+      model: "command-r-plus",
+      prompt: `${systemPrompt}\nUser: ${txt}\nAI:`,
+      max_tokens: 500,
+      temperature: 0.4,
     });
+
+    const cohereReply = cohereResponse.generations?.[0]?.text;
+
+    if (!cohereReply) {
+      throw new Error("Cohere returned empty response");
+    }
 
     return NextResponse.json({
-      reply: response.choices[0].message.content,
+      reply: cohereReply.trim(),
     });
+
   } catch (error) {
-    console.error("AI API ERROR:", error);
+    console.error("AI ROUTE FAILED COMPLETELY:", error);
     return NextResponse.json(
       { error: "AI request failed." },
       { status: 500 }
