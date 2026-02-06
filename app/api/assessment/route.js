@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import OpenAI from "openai";
-import Cohere from "cohere-ai";
+import cohere from "cohere-ai";
 
 export const runtime = "nodejs";
 
@@ -10,9 +10,8 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
-const cohere = new Cohere.Client({
-  token: process.env.COHERE_API_KEY,
-});
+// ✅ Correct for function-based Cohere SDK
+cohere.apiKey = process.env.COHERE_API_KEY;
 
 /* ------------ Route ------------ */
 
@@ -80,7 +79,7 @@ Format strictly as:
       temperature: 0.4,
     });
 
-    const aiReport = cohereResponse.generations?.[0]?.text;
+    const aiReport = cohereResponse?.generations?.[0]?.text;
 
     if (!aiReport) {
       throw new Error("Cohere returned empty response");

@@ -10,8 +10,8 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
-// Initialize Cohere correctly (NO constructor)
-cohere.init(process.env.COHERE_API_KEY);
+// ✅ Correct for function-based Cohere SDK (NO new, NO init)
+cohere.apiKey = process.env.COHERE_API_KEY;
 
 /* ------------------ Route ------------------ */
 
@@ -112,4 +112,4 @@ Never sugar-coat anything.
       { status: 500 }
     );
   }
-  }
+}
