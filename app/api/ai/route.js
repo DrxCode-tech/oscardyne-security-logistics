@@ -1,19 +1,24 @@
 import { NextResponse } from "next/server";
 import OpenAI from "openai";
-import cohere from "cohere-ai";
+import { CohereClient } from "cohere-ai";
 
 export const runtime = "nodejs";
 
-/* ------------------ Clients ------------------ */
+/* ================= CLIENTS ================= */
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
-// ✅ Correct for function-based Cohere SDK (NO new, NO init)
-cohere.apiKey = process.env.COHERE_API_KEY;
+const cohere = new CohereClient({
+  token: process.env.COHERE_API_KEY,
+});
 
-/* ------------------ Route ------------------ */
+/* ================= ROUTE ================= */
+
+console.log("API /api/ai HIT");
+console.log("OPENAI KEY EXISTS:", !!process.env.OPENAI_API_KEY);
+console.log("COHERE KEY EXISTS:", !!process.env.COHERE_API_KEY);
 
 export async function POST(request) {
   try {
@@ -31,19 +36,16 @@ export async function POST(request) {
       .join("\n");
 
     const systemPrompt = `
-You are **Oscardyne Security AI**, the official intelligence assistant of *Oscardyne Security Logistics*.
-The name of the platform is "Oscardyne Security Logistics".
+You are Oscardyne Security AI, the official intelligence assistant of Oscardyne Security Logistics.
 
-Your PRIORITY:
-- Protect the user.
-- Detect threats, scams, fraud, danger, or suspicious activity.
-- Respond with sharp, direct, no-nonsense explanations.
-- Warn the user immediately if danger appears.
-- Stay professional and act like a trained security analyst.
+Your role:
+- Detect threats, scams, fraud, danger, or suspicious activity
+- Warn clearly and immediately when risk is present
+- Respond like a professional security analyst
+- Be direct, precise, and authoritative
 
 -----------------------------------------
 ABOUT OSCARDYNE SECURITY
-Oscardyne is a full-spectrum security organization covering:
 - Physical Security
 - Environmental Security
 - Cybersecurity
@@ -60,12 +62,9 @@ Email: oscarfitnessco@gmail.com
 TEMPORARY MEMORY
 ${memoryContext}
 -----------------------------------------
-
-Always respond with authority and precision.
-Never sugar-coat anything.
 `;
 
-    /* ================= OPENAI (PRIMARY) ================= */
+    /* ============== OPENAI (PRIMARY) ============== */
 
     try {
       const response = await openai.chat.completions.create({
@@ -83,19 +82,18 @@ Never sugar-coat anything.
       return NextResponse.json({ reply });
 
     } catch (openAiError) {
-      console.warn("OpenAI failed. Falling back to Cohere.", openAiError);
+      console.warn("OpenAI failed, falling back to Cohere", openAiError);
     }
 
-    /* ================= COHERE (FALLBACK) ================= */
+    /* ============== COHERE (FALLBACK — CORRECT) ============== */
 
-    const cohereResponse = await cohere.generate({
-      model: "command-r-plus",
-      prompt: `${systemPrompt}\nUser: ${txt}\nAI:`,
-      max_tokens: 500,
-      temperature: 0.4,
+    const cohereResponse = await cohere.chat({
+      model: "command-a-03-2025",
+      message: txt,
+      preamble: systemPrompt,
     });
 
-    const cohereReply = cohereResponse?.generations?.[0]?.text;
+    const cohereReply = cohereResponse?.text;
 
     if (!cohereReply) {
       throw new Error("Cohere returned empty response");

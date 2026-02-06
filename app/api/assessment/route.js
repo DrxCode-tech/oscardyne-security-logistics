@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import OpenAI from "openai";
-import cohere from "cohere-ai";
+import { CohereClient } from "cohere-ai";
 
 export const runtime = "nodejs";
 
@@ -10,9 +10,10 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
-// ✅ Correct for function-based Cohere SDK
-cohere.apiKey = process.env.COHERE_API_KEY;
-
+// ✅ Correct Cohere setup (function-based SDK)
+const cohere = new CohereClient({
+  token: process.env.COHERE_API_KEY,
+});
 /* ------------ Route ------------ */
 
 export async function POST(request) {
@@ -70,16 +71,15 @@ Format strictly as:
       console.warn("OpenAI failed, falling back to Cohere", openAiError);
     }
 
-    /* ================= COHERE (FALLBACK) ================= */
+    /* ================= COHERE (FALLBACK — FIXED) ================= */
 
-    const cohereResponse = await cohere.generate({
-      model: "command-r-plus",
-      prompt: `${systemPrompt}\nUser Data:\n${JSON.stringify(form, null, 2)}\n\nAI Response:`,
-      max_tokens: 700,
-      temperature: 0.4,
+    const cohereResponse = await cohere.chat({
+      model: "command-a-03-2025",
+      message: JSON.stringify(form),
+      preamble: systemPrompt,
     });
 
-    const aiReport = cohereResponse?.generations?.[0]?.text;
+    const aiReport = cohereResponse?.text;
 
     if (!aiReport) {
       throw new Error("Cohere returned empty response");
