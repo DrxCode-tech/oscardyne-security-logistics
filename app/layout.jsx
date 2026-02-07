@@ -77,15 +77,11 @@ export const metadata = {
     canonical: 'https://www.oscardynesecuritylogistics.com',
   },
   icons: {
-    icon: [
-      { url: '/images/icon.png', sizes: '32x32', type: 'image/png' },
-      { url: '/images/icon.png', sizes: '192x192', type: 'image/png' },
-    ],
+    icon: '/favicon.ico',
     shortcut: '/favicon.ico',
-    apple: [
-      { url: '/images/apple-icon.png', sizes: '180x180', type: 'image/png' },
-    ],
+    apple: '/images/apple-icon.png',
   },
+
 }
 
 export default function RootLayout({ children }) {
@@ -93,6 +89,8 @@ export default function RootLayout({ children }) {
     <html lang="en" className={inter.variable}>
       <head>
         {/* Google Translate */}
+        <link rel="icon" href="/favicon.ico" />
+
         <Script
           src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
           strategy="afterInteractive"
