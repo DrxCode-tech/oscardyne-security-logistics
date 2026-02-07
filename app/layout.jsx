@@ -47,7 +47,7 @@ export const metadata = {
     siteName: 'Oscardyne Security Logistics',
     images: [
       {
-        url: '/images/og-image.jpg',
+        url: '/og-image.jpg',
         width: 1200,
         height: 630,
         alt: 'Oscardyne Security Logistics - Professional Security Services',
@@ -60,7 +60,7 @@ export const metadata = {
     card: 'summary_large_image',
     title: 'Oscardyne Security Logistics | Professional Security Services',
     description: 'Full-spectrum private security services available 24/7 in Calgary, Alberta.',
-    images: ['/images/og-image.jpg'],
+    images: ['/og-image.jpg'],
   },
   robots: {
     index: true,
@@ -81,7 +81,7 @@ export const metadata = {
       { url: '/images/icon.png', sizes: '32x32', type: 'image/png' },
       { url: '/images/icon.png', sizes: '192x192', type: 'image/png' },
     ],
-    shortcut: '/images/favicon.ico',
+    shortcut: '/favicon.ico',
     apple: [
       { url: '/images/apple-icon.png', sizes: '180x180', type: 'image/png' },
     ],
