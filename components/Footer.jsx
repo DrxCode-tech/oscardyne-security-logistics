@@ -36,7 +36,7 @@ export default function Footer() {
           </div>
 
           <p className="text-gray-400 text-xs mt-6">
-            © {new Date().getFullYear()} Oscardyne Fitness and Security Logistics.
+            © {new Date().getFullYear()} Oscardyne Security Logistics.
             <br />All rights reserved.
           </p>
         </div>
